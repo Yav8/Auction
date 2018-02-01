@@ -79,9 +79,19 @@ public class Auction
      */
     public Lot getLot(int lotNumber)
     {
+        int contador = 0;
+        boolean coincidencia = false;
+        Lot selectedLot = null;
+
         if((lotNumber >= 1) && (lotNumber < nextLotNumber)) {
             // The number seems to be reasonable.
-            Lot selectedLot = lots.get(lotNumber - 1);
+            while(contador < lots.size() && coincidencia == false) {
+                if(lots.get(contador).getNumber() == lotNumber) {
+                    selectedLot = lots.get(contador);
+                    coincidencia = true;
+                }
+                contador += 1;
+            }
             // Include a confidence check to be sure we have the
             // right lot.
             if(selectedLot.getNumber() != lotNumber) {
@@ -124,13 +134,13 @@ public class Auction
      */
     public ArrayList<Lot> getUnsold() {
         ArrayList<Lot> lotesNoVendidos = new ArrayList<Lot>();
-        
+
         for(Lot lote : lots) {
             if(lote.getHighestBid() == null) {
                 lotesNoVendidos.add(lote);
             }
         }
-        
+
         return lotesNoVendidos;
     }
 }
